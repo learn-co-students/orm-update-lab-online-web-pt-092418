@@ -53,7 +53,7 @@ SQL
   def self.find_by_name(name)
     sql =<<SQL
     SELECT *
-    FROM songs
+    FROM students
     WHERE name = ?
 SQL
     results = DB[:conn].execute(sql, name)[0]
