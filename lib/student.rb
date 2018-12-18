@@ -53,7 +53,7 @@ SQL
   end
 
   def self.new_from_db(row)
-    new_student = Student.new
+    new_student = self.new(row[1], row[2])
     new_student.id = row[0]
     new_student.name = row[1]
     new_student.grade = row[2]
@@ -64,16 +64,17 @@ SQL
     sql =<<SQL
     SELECT *
     FROM students
-    WHERE name = ?
+    WHERE name =?
 SQL
-    results = DB[:conn].execute(sql, name)[0]
-    Student.new(result[0], result[1], result[2])
+    result = DB[:conn].execute(sql, name)
+    self.new_from_db(result[0])
+    
   end
 
 def update
   sql =<<SQL
   UPDATE students
-  SET name = ?
+  SET name = ?,
   GRADE = ?
 SQL
   DB[:conn].execute(sql, self.name, self.grade)
